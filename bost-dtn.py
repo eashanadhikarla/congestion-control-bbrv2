@@ -9,10 +9,12 @@ BOST-DTN ANALYSIS
 import os
 import json
 import numpy as np
+import warnings
 from pathlib import Path
 
-rootdir = "/Users/eashan22/Desktop/Internship 2021/bbrv2/Brian's Project/bost-dtn"
+warnings.filterwarnings("ignore")
 
+rootdir = "/Users/eashan22/Desktop/Internship 2021/bbrv2/Brian's Project/bost-dtn-10G/"
 
 def traverse1(path):
     fileList = []
@@ -65,9 +67,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
-    print("Data Segment (P1)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p1):.5f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_cubic = os.path.join(rootdir, p[1])
@@ -101,9 +104,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
-    print("Data Segment (P1)")
-    print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_p1_cubic):.5f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_both = os.path.join(rootdir, p[2])
@@ -149,12 +153,14 @@ for p in paths:
             print(e)
 
     print("Throughput (P16)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
-    print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p16):.5f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_cubic_p16):.5f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
 
-    print("Data Segment (P16)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
-    print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
+    # print("Data Segment (P16)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
     print(50*"=")
 
 
@@ -212,9 +218,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
-    print("Data Segment (P1)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p1):.5f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_cubic = os.path.join(rootdir, p[1])
@@ -248,9 +255,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
-    print("Data Segment (P1)")
-    print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_p1_cubic):.5f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_both = os.path.join(rootdir, p[2])
@@ -296,12 +304,14 @@ for p in paths:
             print(e)
 
     print("Throughput (P16)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
-    print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p16):.5f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_cubic_p16):.5f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
 
-    print("Data Segment (P16)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
-    print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
+    # print("Data Segment (P16)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
     print(50*"=")
 
 
@@ -322,6 +332,7 @@ paths = [("2021-06-09:14:35/pscheduler_bbr2_p1", "2021-06-09:14:35/pscheduler_cu
          ("2021-06-15:02:12/pscheduler_bbr2_p1", "2021-06-15:02:12/pscheduler_cubic_p1", "2021-06-15:02:12/pscheduler_both_p16"),
          ("2021-06-16:02:12/pscheduler_bbr2_p1", "2021-06-16:02:12/pscheduler_cubic_p1", "2021-06-16:02:12/pscheduler_both_p16")
         ]
+
 
 print(50*"=")
 print("3. NON-ESNET HOSTS")
@@ -359,9 +370,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
-    print("Data Segment (P1)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p1):.5f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p1):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p1):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.5f}  |  Variance: {np.var(tput_bbr2_p1):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_cubic = os.path.join(rootdir, p[1])
@@ -395,9 +407,10 @@ for p in paths:
             print(e)
 
     print("Throughput (P1)")
-    print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
-    print("Data Segment (P1)")
-    print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_p1_cubic):.5f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_p1_cubic):.5f}  |  Std. Dev.: {np.std(tput_p1_cubic):.5f}  |  Coef. of Variance: {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.5f}  |  Variance: {np.var(tput_p1_cubic):.5f}")
+    # print("Data Segment (P1)")
+    # print(f"CUBIC - Mean: {np.mean(data_seg):.5f}  |  Std. Dev.: {np.std(data_seg):.5f}  |  Coef. of Variance: {(np.std(data_seg)/np.mean(data_seg)):.5f}  |  Variance: {np.var(data_seg):.5f}")
     print("")
 
     pscheduler_both = os.path.join(rootdir, p[2])
@@ -443,10 +456,12 @@ for p in paths:
             print(e)
 
     print("Throughput (P16)")
-    print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
-    print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
+    print(f"BBRv2 - M, CV : {np.mean(tput_bbr2_p16):.5f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}")
+    print(f"CUBIC - M, CV : {np.mean(tput_cubic_p16):.5f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}")
+    # print(f"BBRv2 - Mean: {np.mean(tput_bbr2_p16):.5f}  |  Std. Dev.: {np.std(tput_bbr2_p16):.5f}  |  Coef. of Variance: {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.5f}  |  Variance: {np.var(tput_bbr2_p16):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(tput_cubic_p16):.5f}  |  Std. Dev.: {np.std(tput_cubic_p16):.5f}  |  Coef. of Variance: {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.5f}  |  Variance: {np.var(tput_cubic_p16):.5f}")
 
-    print("Data Segment (P16)")
-    print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
-    print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
+    # print("Data Segment (P16)")
+    # print(f"BBRv2 - Mean: {np.mean(data_seg_sum_bbr2):.5f}  |  Std. Dev.: {np.std(data_seg_sum_bbr2):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_bbr2)/np.mean(data_seg_sum_bbr2)):.5f}  |  Variance: {np.var(data_seg_sum_bbr2):.5f}")
+    # print(f"CUBIC - Mean: {np.mean(data_seg_sum_cubic):.5f}  |  Std. Dev.: {np.std(data_seg_sum_cubic):.5f}  |  Coef. of Variance: {(np.std(data_seg_sum_cubic)/np.mean(data_seg_sum_cubic)):.5f}  |  Variance: {np.var(data_seg_sum_cubic):.5f}")
     print(50*"=")

@@ -5,7 +5,10 @@ BUFFER TESTING
 import os
 import json
 import numpy as np
+import warnings
 from pathlib import Path
+
+warnings.filterwarnings("ignore")
 
 rootdir = "/Users/eashan22/Desktop/Internship 2021/bbrv2/Brian's Project/buffer-testing"
 
@@ -20,16 +23,18 @@ def traverse(path):
     print(f"Total files: {c}")
     return fileList
 
-path = ["corsa.8MB.loop/pscheduler_both_p16", 
-        "corsa.9MB.loop/pscheduler_both_p16",
-        "corsa.12MB.loop/pscheduler_both_p16",
-        "corsa.16MB.loop/pscheduler_both_p16",
-        "corsa.24MB.loop/pscheduler_both_p16",
-        "corsa.32MB.loop.1/pscheduler_both_p16",
-        "corsa.32MB.loop.2/pscheduler_both_p16",
-        "corsa.64MB.loop/pscheduler_both_p16",
-        "corsa.100MB.loop/pscheduler_both_p16",
-        "corsa.100MB.loop.2/pscheduler_both_p16"]
+path = [
+    "corsa.8MB.loop/pscheduler_both_p16", 
+    "corsa.9MB.loop/pscheduler_both_p16",
+    "corsa.12MB.loop/pscheduler_both_p16",
+    "corsa.16MB.loop/pscheduler_both_p16",
+    "corsa.24MB.loop/pscheduler_both_p16",
+    "corsa.32MB.loop.1/pscheduler_both_p16",
+    "corsa.32MB.loop.2/pscheduler_both_p16",
+    "corsa.64MB.loop/pscheduler_both_p16",
+    "corsa.100MB.loop/pscheduler_both_p16",
+    "corsa.100MB.loop.2/pscheduler_both_p16"
+]
 
 for p in path:
     print(f"\n===================\n{p}\n===================")
