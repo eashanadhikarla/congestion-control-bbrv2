@@ -59,10 +59,8 @@ def traverse_non_esnet(path):
     c1, c2 = 0, 0
     for root, directories, files in os.walk(path):
         for file in files:
-            # Filtering non-es.net file names
+            # Filtering non-es.net file names, and hosts with 1G
             if file.startswith("ss") and file.endswith("json") and file.find("es.net")==-1 and file.find("psl01.pic.es")==-1 and file.find("btw-bw.t1.grid.kiae.ru")==-1 and file.find("psb.hpc.utfsm.cl")==-1: # and file.find("pygrid-sonar2.lancs.ac.uk")==-1:
-                # Filtering files with 1G and 100G to only keep 10G files
-                # if file.find("psl01.pic.es")==-1 and file.find("btw-bw.t1.grid.kiae.ru")==-1 and file.find("psb.hpc.utfsm.cl")==-1 and file.find("pygrid-sonar2.lancs.ac.uk")==-1:
                 for enum, rtt_file in enumerate(rtt_data):
                     # Filtering rtt in ms
                     if file.find(rtt_file[0])!=-1 and float(rtt_file[1].split("ms")[0])<30:
@@ -95,270 +93,270 @@ paths = [
 # filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_bbr2)
 # filenames_less_30, filenames_greater_30 = traverse_non_esnet(pscheduler_bbr2)
 
-# ============================================================================
-print("\n")
-print(50*"=")
-print("ESNET HOSTS")
-print("RTT less than 30ms")
-print(50*"=")
-print("\n")
-# ============================================================================
+# # ============================================================================
+# print("\n")
+# print(50*"=")
+# print("ESNET HOSTS")
+# print("RTT less than 30ms")
+# print(50*"=")
+# print("\n")
+# # ============================================================================
 
-if not len(paths[0])==0:
-    for q1 in paths[0]:
-        print(f"=== {q1} ===")
-        pscheduler_bbr2  = os.path.join(rootdir, q1)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_bbr2)
+# if not len(paths[0])==0:
+#     for q1 in paths[0]:
+#         print(f"=== {q1} ===")
+#         pscheduler_bbr2  = os.path.join(rootdir, q1)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_bbr2)
 
-        data_seg = []
-        tput_bbr2_p1 = []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg = []
+#         tput_bbr2_p1 = []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_less_30):
-            try:
-                path = Path(f)
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_less_30):
+#             try:
+#                 path = Path(f)
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                bbr2_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in enumerate(data):
-                    if "interval" in d.keys() and j==0:
-                        start_time = data[j]['interval']['time'] # Start time of the test
-                    elif key2 in data[j].keys():
-                        end_time = data[j-1]['interval']['time'] # End time of the test
-                        mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 bbr2_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in enumerate(data):
+#                     if "interval" in d.keys() and j==0:
+#                         start_time = data[j]['interval']['time'] # Start time of the test
+#                     elif key2 in data[j].keys():
+#                         end_time = data[j-1]['interval']['time'] # End time of the test
+#                         mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                        bbr2_data_seg = data[j][key2]
-                        data_seg.append( bbr2_data_seg )
+#                         bbr2_data_seg = data[j][key2]
+#                         data_seg.append( bbr2_data_seg )
 
-                        throughput = (bbr2_data_seg*mss*8)/(end_time-start_time)/1e9
-                        tput_bbr2_p1.append( throughput )
+#                         throughput = (bbr2_data_seg*mss*8)/(end_time-start_time)/1e9
+#                         tput_bbr2_p1.append( throughput )
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P1)")
-        print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p1):.4f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.4f}")
-        print("")
+#         print("Throughput (P1)")
+#         print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p1):.4f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.4f}")
+#         print("")
 
-if not len(paths[1])==0:
-    for q2 in paths[1]:
-        print(f"=== {q2} ===")
-        pscheduler_cubic = os.path.join(rootdir, q2)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_cubic)
+# if not len(paths[1])==0:
+#     for q2 in paths[1]:
+#         print(f"=== {q2} ===")
+#         pscheduler_cubic = os.path.join(rootdir, q2)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_cubic)
 
-        data_seg = []
-        tput_p1_cubic = []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg = []
+#         tput_p1_cubic = []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_less_30):
-            try:
-                path = Path(f)
-                # The MongoDB JSON dump has one object per line, so this works for me.
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_less_30):
+#             try:
+#                 path = Path(f)
+#                 # The MongoDB JSON dump has one object per line, so this works for me.
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                cubic_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in enumerate(data):
-                    if "interval" in d.keys() and j==0:
-                        start_time = data[j]['interval']['time'] # Start time of the test
-                    elif key1 in data[j].keys():
-                        end_time = data[j-1]['interval']['time'] # End time of the test
-                        mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 cubic_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in enumerate(data):
+#                     if "interval" in d.keys() and j==0:
+#                         start_time = data[j]['interval']['time'] # Start time of the test
+#                     elif key1 in data[j].keys():
+#                         end_time = data[j-1]['interval']['time'] # End time of the test
+#                         mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                        cubic_data_seg = data[j][key1]
-                        data_seg.append( cubic_data_seg )
+#                         cubic_data_seg = data[j][key1]
+#                         data_seg.append( cubic_data_seg )
 
-                        throughput = (cubic_data_seg*mss*8)/(end_time-start_time)/1e9
-                        tput_p1_cubic.append( throughput )
+#                         throughput = (cubic_data_seg*mss*8)/(end_time-start_time)/1e9
+#                         tput_p1_cubic.append( throughput )
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P1)")
-        print(f"CUBIC - M, C.V : {np.mean(tput_p1_cubic):.4f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.4f}")
-        print("")
+#         print("Throughput (P1)")
+#         print(f"CUBIC - M, C.V : {np.mean(tput_p1_cubic):.4f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.4f}")
+#         print("")
 
-if not len(paths[2])==0:
-    for q3 in paths[2]:
-        print(f"=== {q3} ===")
-        pscheduler_both = os.path.join(rootdir, q3)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_both)
+# if not len(paths[2])==0:
+#     for q3 in paths[2]:
+#         print(f"=== {q3} ===")
+#         pscheduler_both = os.path.join(rootdir, q3)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_both)
 
-        data_seg_sum_cubic, data_seg_sum_bbr2 = [], []
-        tput_cubic_p16, tput_bbr2_p16 = [], []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg_sum_cubic, data_seg_sum_bbr2 = [], []
+#         tput_cubic_p16, tput_bbr2_p16 = [], []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_less_30):
-            try:
-                path = Path(f)
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_less_30):
+#             try:
+#                 path = Path(f)
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                throughput_cubic, throughput_bbr2, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in zip(range(len(data)),data):
-                    try:
-                        if "interval" in d.keys() and j==0:
-                            start_time = d['interval']['time'] # Start time of the test
-                        if "streams" in d.keys():
-                            end_time = data[j-1]['interval']['time'] # End time of the test
-                            mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 throughput_cubic, throughput_bbr2, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in zip(range(len(data)),data):
+#                     try:
+#                         if "interval" in d.keys() and j==0:
+#                             start_time = d['interval']['time'] # Start time of the test
+#                         if "streams" in d.keys():
+#                             end_time = data[j-1]['interval']['time'] # End time of the test
+#                             mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                            cubic_data_seg_list, bbr2_data_seg_list = [], []
-                            for j in range(len(d['streams'])):
-                                if "cubic" in d['streams'][j]['cc']:
-                                    cubic_data_seg_list.append(d['streams'][j]['data_segs'])
-                                elif "bbr2" in d['streams'][j]['cc']:
-                                    bbr2_data_seg_list.append(d['streams'][j]['data_segs'])
+#                             cubic_data_seg_list, bbr2_data_seg_list = [], []
+#                             for j in range(len(d['streams'])):
+#                                 if "cubic" in d['streams'][j]['cc']:
+#                                     cubic_data_seg_list.append(d['streams'][j]['data_segs'])
+#                                 elif "bbr2" in d['streams'][j]['cc']:
+#                                     bbr2_data_seg_list.append(d['streams'][j]['data_segs'])
 
-                            data_seg_sum_cubic.append( sum(cubic_data_seg_list) )
-                            throughput_cubic = (sum(cubic_data_seg_list)*mss*8)/(end_time-start_time)/1e9
-                            tput_cubic_p16.append( throughput_cubic )
+#                             data_seg_sum_cubic.append( sum(cubic_data_seg_list) )
+#                             throughput_cubic = (sum(cubic_data_seg_list)*mss*8)/(end_time-start_time)/1e9
+#                             tput_cubic_p16.append( throughput_cubic )
 
-                            data_seg_sum_bbr2.append( sum(bbr2_data_seg_list) )
-                            throughput_bbr2 = (sum(bbr2_data_seg_list)*mss*8)/(end_time-start_time)/1e9
-                            tput_bbr2_p16.append( throughput_bbr2 )
+#                             data_seg_sum_bbr2.append( sum(bbr2_data_seg_list) )
+#                             throughput_bbr2 = (sum(bbr2_data_seg_list)*mss*8)/(end_time-start_time)/1e9
+#                             tput_bbr2_p16.append( throughput_bbr2 )
 
-                    except Exception as e:
-                        print(e)
+#                     except Exception as e:
+#                         print(e)
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P16)")
-        print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p16):.4f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.4f}")
-        print(f"CUBIC - M, C.V : {np.mean(tput_cubic_p16):.4f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.4f}")
-        print("")
+#         print("Throughput (P16)")
+#         print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p16):.4f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.4f}")
+#         print(f"CUBIC - M, C.V : {np.mean(tput_cubic_p16):.4f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.4f}")
+#         print("")
 
 
-# ============================================================================
-print("\n")
-print(50*"=")
-print("ESNET HOSTS")
-print("RTT greater than 30ms")
-print(50*"=")
-print("\n")
-# ============================================================================
+# # ============================================================================
+# print("\n")
+# print(50*"=")
+# print("ESNET HOSTS")
+# print("RTT greater than 30ms")
+# print(50*"=")
+# print("\n")
+# # ============================================================================
 
-if not len(paths[0])==0:
-    for q1 in paths[0]:
-        print(f"=== {q1} ===")
-        pscheduler_bbr2  = os.path.join(rootdir, q1)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_bbr2)
+# if not len(paths[0])==0:
+#     for q1 in paths[0]:
+#         print(f"=== {q1} ===")
+#         pscheduler_bbr2  = os.path.join(rootdir, q1)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_bbr2)
 
-        data_seg = []
-        tput_bbr2_p1 = []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg = []
+#         tput_bbr2_p1 = []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_greater_30):
-            try:
-                path = Path(f)
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_greater_30):
+#             try:
+#                 path = Path(f)
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                bbr2_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in enumerate(data):
-                    if "interval" in d.keys() and j==0:
-                        start_time = data[j]['interval']['time'] # Start time of the test
-                    elif key2 in data[j].keys():
-                        end_time = data[j-1]['interval']['time'] # End time of the test
-                        mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 bbr2_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in enumerate(data):
+#                     if "interval" in d.keys() and j==0:
+#                         start_time = data[j]['interval']['time'] # Start time of the test
+#                     elif key2 in data[j].keys():
+#                         end_time = data[j-1]['interval']['time'] # End time of the test
+#                         mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                        bbr2_data_seg = data[j][key2]
-                        data_seg.append( bbr2_data_seg )
+#                         bbr2_data_seg = data[j][key2]
+#                         data_seg.append( bbr2_data_seg )
 
-                        throughput = (bbr2_data_seg*mss*8)/(end_time-start_time)/1e9
-                        tput_bbr2_p1.append( throughput )
+#                         throughput = (bbr2_data_seg*mss*8)/(end_time-start_time)/1e9
+#                         tput_bbr2_p1.append( throughput )
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P1)")
-        print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p1):.4f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.4f}")
-        print("")
+#         print("Throughput (P1)")
+#         print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p1):.4f}, {(np.std(tput_bbr2_p1)/np.mean(tput_bbr2_p1)):.4f}")
+#         print("")
 
-if not len(paths[1])==0:
-    for q2 in paths[1]:
-        print(f"=== {q2} ===")
-        pscheduler_cubic = os.path.join(rootdir, q2)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_cubic)
+# if not len(paths[1])==0:
+#     for q2 in paths[1]:
+#         print(f"=== {q2} ===")
+#         pscheduler_cubic = os.path.join(rootdir, q2)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_cubic)
 
-        data_seg = []
-        tput_p1_cubic = []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg = []
+#         tput_p1_cubic = []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_greater_30):
-            try:
-                path = Path(f)
-                # The MongoDB JSON dump has one object per line, so this works for me.
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_greater_30):
+#             try:
+#                 path = Path(f)
+#                 # The MongoDB JSON dump has one object per line, so this works for me.
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                cubic_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in enumerate(data):
-                    if "interval" in d.keys() and j==0:
-                        start_time = data[j]['interval']['time'] # Start time of the test
-                    elif key1 in data[j].keys():
-                        end_time = data[j-1]['interval']['time'] # End time of the test
-                        mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 cubic_data_seg, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in enumerate(data):
+#                     if "interval" in d.keys() and j==0:
+#                         start_time = data[j]['interval']['time'] # Start time of the test
+#                     elif key1 in data[j].keys():
+#                         end_time = data[j-1]['interval']['time'] # End time of the test
+#                         mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                        cubic_data_seg = data[j][key1]
-                        data_seg.append( cubic_data_seg )
+#                         cubic_data_seg = data[j][key1]
+#                         data_seg.append( cubic_data_seg )
 
-                        throughput = (cubic_data_seg*mss*8)/(end_time-start_time)/1e9
-                        tput_p1_cubic.append( throughput )
+#                         throughput = (cubic_data_seg*mss*8)/(end_time-start_time)/1e9
+#                         tput_p1_cubic.append( throughput )
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P1)")
-        print(f"CUBIC - M, C.V : {np.mean(tput_p1_cubic):.4f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.4f}")
-        print("")
+#         print("Throughput (P1)")
+#         print(f"CUBIC - M, C.V : {np.mean(tput_p1_cubic):.4f}, {(np.std(tput_p1_cubic)/np.mean(tput_p1_cubic)):.4f}")
+#         print("")
 
-if not len(paths[2])==0:
-    for q3 in paths[2]:
-        print(f"=== {q3} ===")
-        pscheduler_both = os.path.join(rootdir, q3)
-        filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_both)
+# if not len(paths[2])==0:
+#     for q3 in paths[2]:
+#         print(f"=== {q3} ===")
+#         pscheduler_both = os.path.join(rootdir, q3)
+#         filenames_less_30, filenames_greater_30 = traverse_esnet(pscheduler_both)
 
-        data_seg_sum_cubic, data_seg_sum_bbr2 = [], []
-        tput_cubic_p16, tput_bbr2_p16 = [], []
-        key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
+#         data_seg_sum_cubic, data_seg_sum_bbr2 = [], []
+#         tput_cubic_p16, tput_bbr2_p16 = [], []
+#         key1, key2, key3 = 'cubic_data_segs', 'bbr2_data_segs', 'bbr_data_segs'
 
-        for i,f in enumerate(filenames_greater_30):
-            try:
-                path = Path(f)
-                data = [json.loads(line) for line in open(f, 'r')]
+#         for i,f in enumerate(filenames_greater_30):
+#             try:
+#                 path = Path(f)
+#                 data = [json.loads(line) for line in open(f, 'r')]
 
-                throughput_cubic, throughput_bbr2, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-                for j,d in zip(range(len(data)),data):
-                    try:
-                        if "interval" in d.keys() and j==0:
-                            start_time = d['interval']['time'] # Start time of the test
-                        if "streams" in d.keys():
-                            end_time = data[j-1]['interval']['time'] # End time of the test
-                            mss = data[j-1]['interval']['mss'] # maximum segment size
+#                 throughput_cubic, throughput_bbr2, throughput, mss, start_time, end_time = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+#                 for j,d in zip(range(len(data)),data):
+#                     try:
+#                         if "interval" in d.keys() and j==0:
+#                             start_time = d['interval']['time'] # Start time of the test
+#                         if "streams" in d.keys():
+#                             end_time = data[j-1]['interval']['time'] # End time of the test
+#                             mss = data[j-1]['interval']['mss'] # maximum segment size
 
-                            cubic_data_seg_list, bbr2_data_seg_list = [], []
-                            for j in range(len(d['streams'])):
-                                if "cubic" in d['streams'][j]['cc']:
-                                    cubic_data_seg_list.append(d['streams'][j]['data_segs'])
-                                elif "bbr2" in d['streams'][j]['cc']:
-                                    bbr2_data_seg_list.append(d['streams'][j]['data_segs'])
+#                             cubic_data_seg_list, bbr2_data_seg_list = [], []
+#                             for j in range(len(d['streams'])):
+#                                 if "cubic" in d['streams'][j]['cc']:
+#                                     cubic_data_seg_list.append(d['streams'][j]['data_segs'])
+#                                 elif "bbr2" in d['streams'][j]['cc']:
+#                                     bbr2_data_seg_list.append(d['streams'][j]['data_segs'])
 
-                            data_seg_sum_cubic.append( sum(cubic_data_seg_list) )
-                            throughput_cubic = (sum(cubic_data_seg_list)*mss*8)/(end_time-start_time)/1e9
-                            tput_cubic_p16.append( throughput_cubic )
+#                             data_seg_sum_cubic.append( sum(cubic_data_seg_list) )
+#                             throughput_cubic = (sum(cubic_data_seg_list)*mss*8)/(end_time-start_time)/1e9
+#                             tput_cubic_p16.append( throughput_cubic )
 
-                            data_seg_sum_bbr2.append( sum(bbr2_data_seg_list) )
-                            throughput_bbr2 = (sum(bbr2_data_seg_list)*mss*8)/(end_time-start_time)/1e9
-                            tput_bbr2_p16.append( throughput_bbr2 )
+#                             data_seg_sum_bbr2.append( sum(bbr2_data_seg_list) )
+#                             throughput_bbr2 = (sum(bbr2_data_seg_list)*mss*8)/(end_time-start_time)/1e9
+#                             tput_bbr2_p16.append( throughput_bbr2 )
 
-                    except Exception as e:
-                        print(e)
+#                     except Exception as e:
+#                         print(e)
 
-            except Exception as e:
-                print(e)
+#             except Exception as e:
+#                 print(e)
 
-        print("Throughput (P16)")
-        print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p16):.4f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.4f}")
-        print(f"CUBIC - M, C.V : {np.mean(tput_cubic_p16):.4f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.4f}")
-        print("")
+#         print("Throughput (P16)")
+#         print(f"BBRv2 - M, C.V : {np.mean(tput_bbr2_p16):.4f}, {(np.std(tput_bbr2_p16)/np.mean(tput_bbr2_p16)):.4f}")
+#         print(f"CUBIC - M, C.V : {np.mean(tput_cubic_p16):.4f}, {(np.std(tput_cubic_p16)/np.mean(tput_cubic_p16)):.4f}")
+#         print("")
 
 # ============================================================================
 print("\n")
