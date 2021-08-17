@@ -60,7 +60,7 @@ def traverse_non_esnet(path):
     for root, directories, files in os.walk(path):
         for file in files:
             # Filtering non-es.net file names, and hosts with 1G
-            if file.startswith("ss") and file.endswith("json") and file.find("es.net")==-1 and file.find("psl01.pic.es")==-1 and file.find("btw-bw.t1.grid.kiae.ru")==-1 and file.find("psb.hpc.utfsm.cl")==-1: # and file.find("pygrid-sonar2.lancs.ac.uk")==-1:
+            if file.startswith("ss") and file.endswith("json") and file.find("es.net")==-1: # and file.find("psl01.pic.es")==-1 and file.find("btw-bw.t1.grid.kiae.ru")==-1 and file.find("psb.hpc.utfsm.cl")==-1: # and file.find("pygrid-sonar2.lancs.ac.uk")==-1:
                 for enum, rtt_file in enumerate(rtt_data):
                     # Filtering rtt in ms
                     if file.find(rtt_file[0])!=-1 and float(rtt_file[1].split("ms")[0])<30:
@@ -75,16 +75,42 @@ def traverse_non_esnet(path):
 
 
 paths = [
-    (),
-    (),
+    (
+        # "bost-dtn-40G/2021-08-02:23:01/pscheduler_bbr2_p1",
+        # "bost-dtn-40G/2021-08-02:23:01/pscheduler_bbr2_p16",
+
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_bbr2_p4",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_bbr2_p8",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_bbr2_p12",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_bbr2_p16",
+
+    ),
+    (
+        # "bost-dtn-40G/2021-08-02:23:01/pscheduler_cubic_p1",
+        # "bost-dtn-40G/2021-08-02:23:01/pscheduler_cubic_p16",
+
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_cubic_p4",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_cubic_p8",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_cubic_p12",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_cubic_p16",
+    ),
     (
         # 40G
-        "bost-dtn-40G/2021-07-23:02:12/pscheduler_both_p16",
-        "bost-dtn-40G/2021-07-23:17:46/pscheduler_both_p16",
-        "bost-dtn-40G/2021-07-23:19:35/pscheduler_both_p16",
-        "bost-dtn-40G/2021-07-25:14:07/pscheduler_both_p16",
-        "bost-dtn-40G/2021-07-31:02:27/pscheduler_both_p8",
-        "bost-dtn-40G/2021-07-31:02:27/pscheduler_both_p16",
+        # "bost-dtn-40G/2021-07-23:02:12/pscheduler_both_p16",
+        
+        # "bost-dtn-40G/2021-07-23:17:46/pscheduler_both_p16",
+        
+        # "bost-dtn-40G/2021-07-23:19:35/pscheduler_both_p16",
+        
+        # "bost-dtn-40G/2021-07-25:14:07/pscheduler_both_p16",
+        
+        # "bost-dtn-40G/2021-07-31:02:27/pscheduler_both_p8",
+        # "bost-dtn-40G/2021-07-31:02:27/pscheduler_both_p16",
+        
+        # "bost-dtn-40G/2021-08-02:23:01/pscheduler_both_p16",
+
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_both_p8",
+        "bost-dtn-40G/2021-07-28:18:07/pscheduler_both_p16",
     )
 ]
 
